@@ -31,7 +31,7 @@ interface EmailResponse {
   message: string;
 }
 
-export const sendEmail = async (
+export const sendOTPEmail = async (
   email: string, 
   emailType: 'VERIFY' | 'RESET',
   userId: string,
