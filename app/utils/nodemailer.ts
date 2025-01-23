@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
     pass: process.env.GMAIL_APP_PASSWORD,
   },
   tls: {
-    // do not fail on invalid certs
+    // do not fail on invalid 
     rejectUnauthorized: false,
   },
 });
@@ -26,32 +26,42 @@ transporter.verify(function (error, success) {
   }
 });
 
-export async function sendOTPEmail(toEmail: string, otp: string) {
+interface EmailResponse {
+  success: boolean;
+  message: string;
+}
+
+export const sendEmail = async (
+  email: string, 
+  emailType: 'VERIFY' | 'RESET',
+  userId: string,
+  otp: string
+): Promise<EmailResponse> => {
   if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
     throw new Error('Email configuration is missing');
   }
 
   const mailOptions = {
     from: `"OTP Verification" <${process.env.GMAIL_USER}>`,
-    to: toEmail,
-    subject: 'Your OTP for Signup',
+    to: email,
+    subject: emailType === 'VERIFY' ? 'Your OTP for Signup' : 'Reset Password OTP',
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
         <h2>Your One-Time Password</h2>
-        <p>Here is your OTP for signup verification:</p>
+        <p>Here is your OTP for ${emailType === 'VERIFY' ? 'signup verification' : 'password reset'}:</p>
         <h1 style="font-size: 36px; background-color: #f0f0f0; padding: 10px; text-align: center; letter-spacing: 5px;">
           ${otp}
         </h1>
         <p>This OTP will expire in 5 minutes.</p>
         <p>If you didn't request this OTP, please ignore this email.</p>
       </div>
-    `,
+    `
   };
 
   try {
     const info = await transporter.sendMail(mailOptions);
     console.log('Message sent: %s', info.messageId);
-    return info;
+    return { success: true, message: 'Email sent successfully' };
   } catch (error: any) {
     console.error('Email sending error:', {
       message: error.message,
@@ -65,4 +75,4 @@ export async function sendOTPEmail(toEmail: string, otp: string) {
     
     throw new Error('Failed to send email. Please try again later.');
   }
-}
+};
