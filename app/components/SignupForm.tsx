@@ -19,16 +19,14 @@ export default function SignupForm() {
       setIsLoading(true);
       setError('');
 
-      const result = await signIn(provider, {
+      await signIn(provider, {
         redirect: true,
         callbackUrl: '/'
       });
 
-      // No need to handle redirection here as we're using redirect: true
-      // NextAuth will handle the redirection automatically
-    } catch (error) {
-      console.error(`${provider} login error:`, error);
-      setError(`Failed to login with ${provider}`);
+    } catch (err) {
+      console.error(`${provider} login error:`, err);
+      setError(err instanceof Error ? err.message : 'An error occurred');
       setIsLoading(false);
     }
   };
@@ -52,8 +50,9 @@ export default function SignupForm() {
       }
 
       setStep(2); // Move to OTP verification step
-    } catch (error) {
-      setError('Failed to send OTP. Please try again.');
+    } catch (err) {
+      console.error('Error:', err);
+      setError(err instanceof Error ? err.message : 'An error occurred');
     }
   };
 
@@ -76,8 +75,9 @@ export default function SignupForm() {
       }
 
       setStep(3); // Move to password setting step
-    } catch (error) {
-      setError('Failed to verify OTP. Please try again.');
+    } catch (err) {
+      console.error('Error:', err);
+      setError(err instanceof Error ? err.message : 'An error occurred');
     }
   };
 
@@ -105,9 +105,9 @@ export default function SignupForm() {
 
       // Redirect to login page with success message
       router.replace('/login?message=Signup successful! Please login to continue.');
-    } catch (error) {
-      console.error('Signup error:', error);
-      setError('Failed to complete signup. Please try again.');
+    } catch (err) {
+      console.error('Error:', err);
+      setError(err instanceof Error ? err.message : 'An error occurred');
     }
   };
 
