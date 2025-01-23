@@ -1,10 +1,10 @@
 // app/api/auth/signup/route.ts
 
 import { NextResponse } from 'next/server';
-import { sendOTPEmail } from '@/app/utils/nodemailer';  // Helper to send OTP email
-import { generateOTP } from '@/app/utils/otpUtils';     // Helper for OTP generation
-import { OTP_STORE } from '@/app/utils/otpStore';       // Storage for OTP
-import { createUser, getUserByEmail } from '@/sanity/lib/client';
+import { sendOTPEmail } from '../../../utils/nodemailer';  // Helper to send OTP email
+import { generateOTP } from '../../../utils/otpUtils';     // Helper for OTP generation
+import { OTP_STORE } from '../../../utils/otpStore';       // Storage for OTP
+import { createUser, getUserByEmail } from '../../../../sanity/lib/client';
 import bcrypt from 'bcryptjs';
 
 export async function POST(req: Request) {
@@ -24,7 +24,12 @@ export async function POST(req: Request) {
 
       try {
         const generatedOtp = generateOTP();
-        await sendOTPEmail(email, generatedOtp);
+        await sendOTPEmail(
+          email,
+          'VERIFY',  // emailType for signup verification
+          email,     // using email as temporary userId since user isn't created yet
+          generatedOtp
+        );
 
         // Store OTP and expiration time
         OTP_STORE[email] = { 
