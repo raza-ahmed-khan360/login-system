@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { OTP_STORE } from '@/app/utils/otpStore';
-import { getUserByEmail, updateUserPassword } from '@/sanity/lib/client';
+import { OTP_STORE } from '../../../../utils/otpStore';
+import { getUserByEmail, updateUserPassword } from '../../../../../sanity/lib/client';
 import bcrypt from 'bcryptjs';
 
 export async function POST(req: Request) {
