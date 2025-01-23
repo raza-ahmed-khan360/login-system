@@ -4,12 +4,13 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
+import Image from 'next/image';
 
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
   const { data: session, status } = useSession();
-
+ 
   const handleLogout = async () => {
     try {
       setIsLoading(true);
@@ -102,9 +103,11 @@ export default function HomePage() {
           {session.user?.image && (
             <div>
               <p className="text-gray-600 mb-2">Profile Image:</p>
-              <img 
+              <Image 
                 src={session.user.image} 
                 alt="Profile" 
+                width={500}
+                height={300}
                 className="w-16 h-16 rounded-full"
               />
             </div>
