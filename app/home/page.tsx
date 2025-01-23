@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-interface UserData {
+interface UserData { 
   email: string;
   name?: string;
   // add other user properties as needed
