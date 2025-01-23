@@ -14,7 +14,7 @@ export async function GET() {
       return NextResponse.json({ 
         authenticated: false,
         error: 'No token found',
-        message: 'Please log in to continue'
+        message: 'Please log in to continue' 
       }, { 
         status: 401,
         headers: {
@@ -44,7 +44,7 @@ export async function GET() {
           'Pragma': 'no-cache'
         }
       });
-    } catch (jwtError) {
+    } catch (error) {
       // If token verification fails, clear the invalid token
       const response = NextResponse.json({ 
         authenticated: false,
