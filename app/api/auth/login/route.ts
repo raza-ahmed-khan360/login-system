@@ -1,7 +1,7 @@
 // app/api/auth/login/route.ts
 
 import { NextResponse } from 'next/server';
-import { getUserByEmail } from '@/sanity/lib/client';
+import { getUserByEmail } from '../../../../sanity/lib/client';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
