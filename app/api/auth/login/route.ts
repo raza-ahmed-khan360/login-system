@@ -21,7 +21,7 @@ export async function POST(req: Request) {
     // Find user by email
     const user = await getUserByEmail(email);
     if (!user) {
-      return NextResponse.json({ 
+      return NextResponse.json({  
         success: false,
         error: 'Invalid email or password' 
       }, { status: 401 });
@@ -75,11 +75,11 @@ export async function POST(req: Request) {
 
     return response;
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Login API Error:', error);
     return NextResponse.json({ 
       success: false,
-      error: 'Internal server error' 
+      message: error instanceof Error ? error.message : 'An error occurred'
     }, { status: 500 });
   }
 }
