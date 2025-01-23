@@ -8,7 +8,7 @@ import { useSession } from 'next-auth/react';
 export default function HomePage() {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { status } = useSession();
  
   useEffect(() => {
     if (status === 'authenticated') {
