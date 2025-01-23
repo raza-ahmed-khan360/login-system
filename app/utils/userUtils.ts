@@ -1,6 +1,6 @@
 // utils/userUtils.ts
 
-import { client } from "@/sanity/lib/client";
+import { client } from "../../sanity/lib/client";
 
 
 // Define the Sanity query to fetch user by email
