@@ -3,12 +3,19 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+// Create a proper type for the user
+interface User {
+  name: string;
+  email: string;
+  // Add other user properties
+}
+
 export default function DashboardPage() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    // Check if user is authenticated
+    // Check if user is authenticated 
     const checkAuth = async () => {
       try {
         const response = await fetch('/api/auth/check');
