@@ -15,7 +15,7 @@ export default function LoginForm() {
   const message = searchParams.get('message');
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault(); 
     setError('');
 
     // Basic validation
@@ -199,7 +199,7 @@ export default function LoginForm() {
       </div>
 
       <div className="mt-4 text-center">
-        <span className="text-sm text-gray-600">Don't have an account? </span>
+        <span className="text-sm text-gray-600">Don&apos;t have an account? </span>
         <Link href="/signup" className="text-sm text-indigo-600 hover:text-indigo-500">
           Sign up
         </Link>
