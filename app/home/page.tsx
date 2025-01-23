@@ -3,11 +3,17 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
+interface UserData {
+  email: string;
+  name?: string;
+  // add other user properties as needed
+}
+
 export default function HomePage() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserData | null>(null);
   const router = useRouter();
 
-  useEffect(() => {
+  useEffect(() => { 
     // Try to get the JWT token from localStorage or cookies
     const token = localStorage.getItem('token');
     if (!token) {
