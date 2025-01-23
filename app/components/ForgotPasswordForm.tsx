@@ -9,7 +9,7 @@ export default function ForgotPasswordForm() {
   const [otp, setOtp] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [step, setStep] = useState(1); // 1: Email, 2: OTP, 3: New Password
-  const [error, setError] = useState('');
+  const [_error, setError] = useState('');
   const [message, setMessage] = useState('');
   const router = useRouter();
 
@@ -34,8 +34,9 @@ export default function ForgotPasswordForm() {
 
       setMessage('OTP sent to your email');
       setStep(2);
-    } catch (error) {
-      setError('Failed to send OTP. Please try again.');
+    } catch (err) {
+      console.error('Error:', err);
+      setError(err instanceof Error ? err.message : 'An error occurred');
     }
   };
 
@@ -60,8 +61,9 @@ export default function ForgotPasswordForm() {
 
       setMessage('OTP verified successfully');
       setStep(3);
-    } catch (error) {
-      setError('Failed to verify OTP. Please try again.');
+    } catch (err) {
+      console.error('Error:', err);
+      setError(err instanceof Error ? err.message : 'An error occurred');
     }
   };
 
@@ -90,9 +92,9 @@ export default function ForgotPasswordForm() {
 
       // Redirect to login page with success message
       router.replace('/login?message=Password reset successful! Please login with your new password.');
-    } catch (error) {
-      console.error('Password reset error:', error);
-      setError('Failed to reset password. Please try again.');
+    } catch (err) {
+      console.error('Error:', err);
+      setError(err instanceof Error ? err.message : 'An error occurred');
     }
   };
 
@@ -100,9 +102,9 @@ export default function ForgotPasswordForm() {
     <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
       <h1 className="text-2xl font-bold text-center mb-6">Reset Password</h1>
 
-      {error && (
+      {_error && (
         <div className="mb-4 p-4 bg-red-50 text-red-600 rounded-md">
-          {error}
+          {_error}
         </div>
       )}
 

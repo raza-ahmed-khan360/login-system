@@ -44,7 +44,8 @@ export async function GET() {
           'Pragma': 'no-cache'
         }
       });
-    } catch (error) {
+    } catch (jwtError) {
+      console.error('Token verification error:', jwtError);
       // If token verification fails, clear the invalid token
       const response = NextResponse.json({ 
         authenticated: false,
@@ -61,18 +62,12 @@ export async function GET() {
       response.cookies.delete('auth_token');
       return response;
     }
-  } catch (error) {
-    console.error('Auth check error:', error);
+  } catch (_error) {
+    console.error('Auth check error:', _error);
     return NextResponse.json({ 
       authenticated: false,
       error: 'Server error',
       message: 'An error occurred while checking authentication'
-    }, { 
-      status: 500,
-      headers: {
-        'Cache-Control': 'no-store, must-revalidate',
-        'Pragma': 'no-cache'
-      }
-    });
+    }, { status: 500 });
   }
 } 

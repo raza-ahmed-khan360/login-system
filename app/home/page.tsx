@@ -4,10 +4,16 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-interface UserData { 
+interface UserData {
   email: string;
   name?: string;
+  id?: string;
   // add other user properties as needed
+}
+
+interface ApiError {
+  message: string;
+  status?: number;
 }
 
 export default function HomePage() {
@@ -27,9 +33,9 @@ export default function HomePage() {
         },
       })
         .then((response) => response.json())
-        .then((data) => setUser(data))
-        .catch((error) => {
-          console.error('Failed to fetch user data:', error);
+        .then((data: UserData) => setUser(data))
+        .catch((error: ApiError) => {
+          console.error('Failed to fetch user data:', error.message);
           router.push('/login');
         });
     }
@@ -47,10 +53,17 @@ export default function HomePage() {
       <ul>
         <li><Link href="/profile">Go to your profile</Link></li>
         <li><Link href="/settings">Settings</Link></li>
-        <li><Link href="/logout" onClick={() => {
-          localStorage.removeItem('token');
-          router.push('/login');
-        }}>Logout</Link></li>
+        <li>
+          <button 
+            onClick={() => {
+              localStorage.removeItem('token');
+              router.push('/login');
+            }}
+            className="text-blue-600 hover:underline"
+          >
+            Logout
+          </button>
+        </li>
       </ul>
     </div>
   );

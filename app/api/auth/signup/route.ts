@@ -41,11 +41,11 @@ export async function POST(req: Request) {
           success: true,
           message: 'OTP sent to your email' 
         });
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error('OTP Send Error:', error);
         return NextResponse.json({ 
           success: false,
-          error: error.message || 'Failed to send OTP' 
+          error: error instanceof Error ? error.message : 'Failed to send OTP' 
         }, { status: 500 });
       }
     }
@@ -92,7 +92,7 @@ export async function POST(req: Request) {
           success: true,
           message: 'Signup successful' 
         });
-      } catch (error: any) {
+      } catch (error: unknown) {
         console.error('User creation error:', error);
         return NextResponse.json({ 
           success: false,
@@ -107,7 +107,7 @@ export async function POST(req: Request) {
       message: 'OTP verified successfully' 
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Signup API Error:', error);
     return NextResponse.json({ 
       success: false,

@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Verify connection configuration
-transporter.verify(function (error, success) {
+transporter.verify(function (error) {
   if (error) {
     console.error('SMTP connection error:', error);
   } else {
@@ -29,6 +29,12 @@ transporter.verify(function (error, success) {
 interface EmailResponse {
   success: boolean;
   message: string;
+}
+
+interface EmailError {
+  code?: string;
+  message: string;
+  response?: unknown;
 }
 
 export const sendOTPEmail = async (
@@ -62,14 +68,15 @@ export const sendOTPEmail = async (
     const info = await transporter.sendMail(mailOptions);
     console.log('Message sent: %s', info.messageId);
     return { success: true, message: 'Email sent successfully' };
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const emailError = error as EmailError;
     console.error('Email sending error:', {
-      message: error.message,
-      code: error.code,
-      response: error.response,
+      message: emailError.message || 'Unknown error',
+      code: emailError.code,
+      response: emailError.response,
     });
     
-    if (error.code === 'EAUTH') {
+    if (emailError.code === 'EAUTH') {
       throw new Error('Invalid email credentials. Please check your email settings.');
     }
     

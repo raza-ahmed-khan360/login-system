@@ -1,10 +1,10 @@
 // app/api/auth/forgot-password/route.ts
 
 import { NextResponse } from 'next/server';
-import { sendOTPEmail } from '../../../utils/nodemailer';  // Helper to send OTP email
-import { generateOTP } from '../../../utils/otpUtils';     // Helper for OTP generation
-import { OTP_STORE } from '../../../utils/otpStore';       // Storage for OTP
-import { getUserByEmail } from '../../../../sanity/lib/client';
+import { sendOTPEmail } from '@/app/utils/nodemailer';  // Helper to send OTP email
+import { generateOTP } from '@/app/utils/otpUtils';     // Helper for OTP generation
+import { OTP_STORE } from '@/app/utils/otpStore';       // Storage for OTP
+import { getUserByEmail } from '@/sanity/lib/client';
 
 export async function POST(req: Request) {
   try {
@@ -19,7 +19,7 @@ export async function POST(req: Request) {
       }, { status: 404 });
     }
 
-      // Generate and send OTP
+    // Generate and send OTP
     const generatedOtp = generateOTP();
     await sendOTPEmail(
       email,
@@ -27,7 +27,6 @@ export async function POST(req: Request) {
       user._id,  // userId from the found user
       generatedOtp
     );
-
 
     // Store OTP with expiration
     OTP_STORE[email] = {
@@ -40,7 +39,7 @@ export async function POST(req: Request) {
       message: 'OTP sent successfully' 
     });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Forgot Password Error:', error);
     return NextResponse.json({ 
       success: false,

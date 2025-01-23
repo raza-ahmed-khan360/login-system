@@ -12,7 +12,7 @@ export default function LoginForm() {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const message = searchParams.get('message');
+  const message = searchParams?.get('message');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); 
@@ -68,15 +68,12 @@ export default function LoginForm() {
       setIsLoading(true);
       setError('');
 
-      const result = await signIn(provider, {
+      await signIn(provider, {
         redirect: true,
         callbackUrl: '/'
       });
-
-      // No need to handle redirection here as we're using redirect: true
-      // NextAuth will handle the redirection automatically
-    } catch (error) {
-      console.error(`${provider} login error:`, error);
+    } catch (err) {
+      console.error(`${provider} login error:`, err);
       setError(`Failed to login with ${provider}`);
       setIsLoading(false);
     }

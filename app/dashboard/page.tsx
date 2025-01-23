@@ -27,7 +27,8 @@ export default function DashboardPage() {
         }
 
         setUser(data.user);
-      } catch (_error) {  // Prefix with underscore since we're not using it
+      } catch (err) {
+        console.error('Auth check failed:', err);
         router.push('/login');
       }
     };
@@ -35,12 +36,12 @@ export default function DashboardPage() {
     checkAuth();
   }, [router]);
 
-  const handleLogout = async () => { 
+  const handleLogout = async () => {
     try {
       await fetch('/api/auth/logout', { method: 'POST' });
       router.push('/login');
-    } catch (error) {
-      console.error('Logout error:', error);
+    } catch (_error) { // Prefix with underscore since we're only logging it
+      console.error('Logout error:', _error);
     }
   };
 
