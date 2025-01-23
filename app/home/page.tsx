@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface UserData {
   email: string;
@@ -44,12 +45,12 @@ export default function HomePage() {
       <p>This is your dashboard. Here are some of the things you can do:</p>
       {/* Example links to other pages */}
       <ul>
-        <li><a href="/profile">Go to your profile</a></li>
-        <li><a href="/settings">Settings</a></li>
-        <li><a href="/logout" onClick={() => {
+        <li><Link href="/profile">Go to your profile</Link></li>
+        <li><Link href="/settings">Settings</Link></li>
+        <li><Link href="/logout" onClick={() => {
           localStorage.removeItem('token');
           router.push('/login');
-        }}>Logout</a></li>
+        }}>Logout</Link></li>
       </ul>
     </div>
   );
