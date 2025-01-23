@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { OTP_STORE } from '@/app/utils/otpStore';
+import { OTP_STORE } from '../../../../utils/otpStore';
 
 export async function POST(req: Request) {
   try {
