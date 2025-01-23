@@ -1,10 +1,10 @@
 // app/api/auth/forgot-password/route.ts
 
 import { NextResponse } from 'next/server';
-import { sendOTPEmail } from '@/app/utils/nodemailer';  // Helper to send OTP email
-import { generateOTP } from '@/app/utils/otpUtils';     // Helper for OTP generation
-import { OTP_STORE } from '@/app/utils/otpStore';       // Storage for OTP
-import { getUserByEmail } from '@/sanity/lib/client';
+import { sendOTPEmail } from '../../../utils/nodemailer';  // Helper to send OTP email
+import { generateOTP } from '../../../utils/otpUtils';     // Helper for OTP generation
+import { OTP_STORE } from '../../../utils/otpStore';       // Storage for OTP
+import { getUserByEmail } from '../../../../sanity/lib/client';
 
 export async function POST(req: Request) {
   try {
