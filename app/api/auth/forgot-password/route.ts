@@ -19,9 +19,15 @@ export async function POST(req: Request) {
       }, { status: 404 });
     }
 
-    // Generate and send OTP
+      // Generate and send OTP
     const generatedOtp = generateOTP();
-    await sendOTPEmail(email, generatedOtp);
+    await sendOTPEmail(
+      email,
+      'RESET',  // emailType for password reset
+      user._id,  // userId from the found user
+      generatedOtp
+    );
+
 
     // Store OTP with expiration
     OTP_STORE[email] = {
