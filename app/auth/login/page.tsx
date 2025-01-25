@@ -22,7 +22,7 @@ export default function LoginPage() {
     });
 
     if (res.redirected) {
-      window.location.href = res.url; // Redirect to the dashboard
+      router.push('/dashboard');
     } else {
       const data = await res.json();
       setError(data.error || 'An error occurred');
