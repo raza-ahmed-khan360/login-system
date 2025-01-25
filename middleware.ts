@@ -46,9 +46,9 @@ export function middleware(request: NextRequest) {
 
   // If user is authenticated
   if (isAuthenticated) {
-    // Redirect to home if trying to access auth-only pages
+    // Redirect to dashboard if trying to access auth-only pages
     if (isAuthOnlyPath) {
-      return NextResponse.redirect(new URL('/', request.url));
+      return NextResponse.redirect(new URL('/dashboard', request.url));
     }
     return NextResponse.next();
   }
