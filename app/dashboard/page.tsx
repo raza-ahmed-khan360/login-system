@@ -32,7 +32,7 @@ export default function DashboardPage() {
         }
       });
 
-      router.replace('/login');
+      router.replace('/dashboard');
       router.refresh();
     } catch (error) {
       console.error('Logout error:', error);
