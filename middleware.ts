@@ -28,6 +28,9 @@ const publicPaths = [
   '/' // Home page is public
 ];
 
+// Add a new path for successful login redirection
+const loginSuccessPath = '/login-success'; // This should be the path you redirect to after a successful login
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
@@ -57,6 +60,11 @@ export function middleware(request: NextRequest) {
   if (isProtectedPath) {
     // Redirect to login if trying to access protected pages
     return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  // Redirect to dashboard if coming from a successful login
+  if (pathname === loginSuccessPath) {
+    return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
   return NextResponse.next();
