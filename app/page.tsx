@@ -12,7 +12,7 @@ export default function HomePage() {
  
   useEffect(() => {
     if (status === 'authenticated') {
-      router.replace('/dashboard');
+      router.replace('/');
     } else if (status !== 'loading') {
       setIsLoading(false);
     }
