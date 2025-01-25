@@ -47,22 +47,7 @@ export async function POST(req: Request) {
     );
 
     // Create response with user data
-    const response = NextResponse.json({ 
-      success: true,
-      message: 'Login successful',
-      user: {
-        email: user.email,
-        name: user.name,
-        userId: user._id
-      }
-    }, {
-      headers: {
-        'Cache-Control': 'no-store, must-revalidate',
-        'Pragma': 'no-cache'
-      }
-    });
-
-    // Set cookie with strict security settings
+    const response = NextResponse.redirect('/dashboard'); // Redirect to login success page
     response.cookies.set({
       name: 'auth_token',
       value: token,
