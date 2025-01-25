@@ -11,28 +11,21 @@ export default function LoginPage() {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, password }),
+    });
 
-    try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.error || 'Login failed');
-        return;
-      }
-
-      // On successful login, redirect to home page
-      router.push('/');
-    } catch (err) {
-      console.error('Login error:', err);
-      setError('Something went wrong. Please try again.');
+    if (res.redirected) {
+      window.location.href = res.url; // Redirect to the dashboard
+    } else {
+      const data = await res.json();
+      setError(data.error || 'An error occurred');
     }
   };
 
@@ -40,14 +33,26 @@ export default function LoginPage() {
     <div className="container">
       <h1>Login</h1>
       {error && <p className="error">{error}</p>}
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleSubmit}>
         <div>
           <label>Email</label>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+          />
         </div>
         <div>
           <label>Password</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            required
+          />
         </div>
         <button type="submit">Login</button>
       </form>

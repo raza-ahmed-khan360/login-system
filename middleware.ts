@@ -49,7 +49,6 @@ export function middleware(request: NextRequest) {
 
   // If user is authenticated
   if (isAuthenticated) {
-    // Redirect to dashboard if trying to access auth-only pages
     if (isAuthOnlyPath) {
       return NextResponse.redirect(new URL('/dashboard', request.url));
     }
@@ -58,7 +57,6 @@ export function middleware(request: NextRequest) {
 
   // If user is not authenticated
   if (isProtectedPath) {
-    // Redirect to login if trying to access protected pages
     return NextResponse.redirect(new URL('/login', request.url));
   }
 

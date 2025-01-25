@@ -46,8 +46,8 @@ export async function POST(req: Request) {
       { expiresIn: '24h' }
     );
 
-    // Create response with user data
-    const response = NextResponse.redirect('/dashboard'); // Redirect to login success page
+    // Create response and set cookie
+    const response = NextResponse.redirect('/dashboard'); // Redirect to dashboard
     response.cookies.set({
       name: 'auth_token',
       value: token,
